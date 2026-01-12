@@ -52,14 +52,17 @@ export function CalculadoraTributariaAutomatica() {
       const response = await fetch(`/api/produtos/search?q=${encodeURIComponent(searchTerm)}&limit=50`)
       const data = await response.json()
       
-      if (data.success) {
-        setProdutos(data.produtos)
-        if (data.produtos.length === 0) {
-          alert('Nenhum produto encontrado')
-        }
-      } else {
-        alert('Erro ao buscar produtos: ' + data.error)
-      }
+      if (data.produtos) {
+  setProdutos(data.produtos)
+  if (data.produtos.length === 0) {
+    alert('Nenhum produto encontrado')
+  }
+} else if (data.error) {
+  alert('Erro ao buscar produtos: ' + data.error)
+} else {
+  alert('Erro ao buscar produtos: undefined')
+}
+
     } catch (error) {
       console.error('Erro:', error)
       alert('Erro ao conectar com a API')
